@@ -23,6 +23,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set any additional class parameters as needed
+        self.iteration = 0
 
 
     def reset(self, destination=None, testing=False):
@@ -39,10 +40,16 @@ class LearningAgent(Agent):
         # Update epsilon using a decay function of your choice
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
-        self.epsilon -= 0.05
+        #self.epsilon -= 0.05
+        self.iteration += 1
+        #self.epsilon *= (1.0 / (self.iteration * self.iteration))
+        #self.epsilon *= math.exp(self.iteration * self.alpha * -1)
+        #self.epsilon *= math.pow(self.alpha, self.iteration)
+        self.epsilon *= math.cos(self.alpha * self.iteration)
         if testing:
             self.epsilon = 0
             self.alpha = 0
+            self.iteration = 0
 
         return None
 
@@ -176,7 +183,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True)
+    agent = env.create_agent(LearningAgent, learning=True, epsilon=0.85, alpha=0.0002)
     
     ##############
     # Follow the driving agent
@@ -191,7 +198,7 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay=0.01, display=True, log_metrics=True)
+    sim = Simulator(env, update_delay=0.01, display=False, log_metrics=True, optimized=True)
     
     ##############
     # Run the simulator
