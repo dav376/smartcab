@@ -147,8 +147,7 @@ class LearningAgent(Agent):
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
         if self.learning:
             old_value = self.Q[state][action]
-            maxQ = self.get_maxQ(state)
-            value = old_value + (self.alpha * (reward + maxQ - old_value))
+            value = old_value + (self.alpha * (reward - old_value))
             self.Q[state][action] = value
 
         return
@@ -207,7 +206,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(tolerance=0.001, n_test=10)
+    sim.run(tolerance=0.005, n_test=10)
 
 
 if __name__ == '__main__':
