@@ -120,7 +120,8 @@ class LearningAgent(Agent):
         ###########
         # When not learning, choose a random action
         # When learning, choose a random action with 'epsilon' probability
-        #   Otherwise, choose an action with the highest Q-value for the current state
+        # Otherwise, choose an action with the highest Q-value for the current state
+        # Be sure that when choosing an action with highest Q-value that you randomly select between actions that "tie".
         if self.learning:
             if random.random() < self.epsilon:
                 action = random.choice(self.valid_actions)
@@ -137,7 +138,7 @@ class LearningAgent(Agent):
 
     def learn(self, state, action, reward):
         """ The learn function is called after the agent completes an action and
-            receives an award. This function does not consider future rewards 
+            receives a reward. This function does not consider future rewards 
             when conducting learning. """
 
         ###########
